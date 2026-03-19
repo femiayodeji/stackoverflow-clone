@@ -3,7 +3,18 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
+    "build": "tsc",
+    "start": "node dist/app.js",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "db:create": "sequelize-cli db:create",
+    "db:migrate": "sequelize-cli db:migrate",
+    "db:rollback": "sequelize-cli db:migrate:undo:all",
+    "db:seed": "sequelize-cli db:seed:all",
+    "db:seed:undo": "sequelize-cli db:seed:undo:all",
+    "db:fresh": "npm run db:rollback && npm run db:migrate && npm run db:seed"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +29,7 @@
     "nodemailer": "^8.0.2",
     "sequelize": "^6.37.8",
     "winston": "^3.19.0",
+    "winston-transport": "^4.9.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
