@@ -3,8 +3,9 @@ import dotenv from 'dotenv';
 import { globalErrorHandler } from './shared/errors';
 import { NotFoundError } from './shared/errors';
 import { connectDB } from './config/db';
-import authRoutes from './modules/auth/auth.routes';
 import logger from './shared/logger';
+import questionsRoutes from '@modules/questions/questions.routes';
+import authRoutes from '@modules/auth/auth.routes';
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/questions', questionsRoutes);
 
 // Handle unmatched routes
 app.all('*', (req: Request, _res, next) => {
