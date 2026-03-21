@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { questionsController } from './questions.controller';
 import { protect } from '../../middleware/auth.middleware';
 import { CreateQuestionSchema, CreateAnswerSchema } from './questions.schema';
-import { validate } from 'src/middleware/validate.middleware';
+import { validate } from '../../middleware/validate.middleware';
 
 const router = Router();
 
