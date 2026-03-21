@@ -22,10 +22,7 @@ export interface JwtPayload {
 }
 
 export class AuthService {
-  /**
-   * Registers a new user.
-   * Throws ConflictError if email is already taken.
-   */
+
   async register(dto: RegisterDto): Promise<AuthResponse> {
     const existing = await authRepository.findByEmail(dto.email);
     if (existing) {
@@ -50,10 +47,6 @@ export class AuthService {
     };
   }
 
-  /**
-   * Logs in an existing user.
-   * Throws UnauthorizedError for invalid credentials.
-   */
   async login(dto: LoginDto): Promise<AuthResponse> {
     const user = await authRepository.findByEmail(dto.email);
     if (!user) {
@@ -75,9 +68,6 @@ export class AuthService {
     };
   }
 
-  /**
-   * Signs a JWT token with the user payload
-   */
   private signToken(payload: JwtPayload): string {
     return jwt.sign(payload, process.env.JWT_SECRET as string, {
       expiresIn: process.env.JWT_EXPIRES_IN ?? '7d',

@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { questionsController } from './questions.controller';
-import { validate } from '../../shared/middleware/validate.middleware';
 import { protect } from '../../middleware/auth.middleware';
 import { CreateQuestionSchema, CreateAnswerSchema } from './questions.schema';
+import { validate } from 'src/middleware/validate.middleware';
 
 const router = Router();
 
