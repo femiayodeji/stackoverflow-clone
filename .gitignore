@@ -45,7 +45,6 @@ Thumbs.db
 *.session.sql
 .sqltoolsrc
 .sqltools/
-settings.json
 
 # Misc
 todo.md
