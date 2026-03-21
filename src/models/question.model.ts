@@ -10,7 +10,7 @@ import {
   BelongsToGetAssociationMixin,
 } from 'sequelize';
 import sequelize from '../config/db';
-import { User } from './User';
+import { User } from './user.model';
 
 export class Question extends Model<
   InferAttributes<Question>,
@@ -29,7 +29,7 @@ export class Question extends Model<
   declare getAuthor: BelongsToGetAssociationMixin<User>;
 }
 
-import { Answer } from './Answer';
+import { Answer } from './answer.model';
 
 Question.init(
   {

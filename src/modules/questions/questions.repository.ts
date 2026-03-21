@@ -1,6 +1,6 @@
-import { Question } from '../../models/Question';
-import { Answer } from '../../models/Answer';
-import { User } from '../../models/User';
+import { Answer } from '@models/answer.model';
+import { Question } from '@models/question.model';
+import { User } from '@models/user.model';
 import { CreateQuestionDto, CreateAnswerDto } from './questions.schema';
 
 export class QuestionsRepository {

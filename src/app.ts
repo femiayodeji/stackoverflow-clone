@@ -3,11 +3,15 @@ import dotenv from 'dotenv';
 import { globalErrorHandler } from './shared/errors';
 import { NotFoundError } from './shared/errors';
 import { connectDB } from './config/db';
+import { setupAssociations } from './models/associations';
 import logger from './shared/logger';
 import questionsRoutes from '@modules/questions/questions.routes';
 import authRoutes from '@modules/auth/auth.routes';
 
 dotenv.config();
+
+// Setup model associations
+setupAssociations();
 
 const app: Application = express();
 
@@ -19,7 +23,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/questions', questionsRoutes);
 
 // Handle unmatched routes
-app.all('*', (req: Request, _res, next) => {
+app.all('/{*path}', (req: Request, _res, next) => {
   next(new NotFoundError(`Route ${req.originalUrl} not found`));
 });
 

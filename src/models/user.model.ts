@@ -4,53 +4,51 @@ import {
   InferAttributes,
   InferCreationAttributes,
   CreationOptional,
-  ForeignKey,
-  BelongsToGetAssociationMixin,
+  HasManyGetAssociationsMixin,
+  HasManyCreateAssociationMixin,
 } from 'sequelize';
 import sequelize from '../config/db';
-import { User } from './User';
-import { Question } from './Question';
 
-export class Notification extends Model<
-  InferAttributes<Notification>,
-  InferCreationAttributes<Notification>
+export class User extends Model<
+  InferAttributes<User>,
+  InferCreationAttributes<User>
 > {
   declare id: CreationOptional<number>;
-  declare user_id: ForeignKey<User['id']>;
-  declare question_id: ForeignKey<Question['id']>;
-  declare message: string;
-  declare is_read: CreationOptional<boolean>;
+  declare username: string;
+  declare email: string;
+  declare password_hash: string;
   declare created_at: CreationOptional<Date>;
   declare updated_at: CreationOptional<Date>;
 
   // Association mixins
-  declare getUser: BelongsToGetAssociationMixin<User>;
-  declare getQuestion: BelongsToGetAssociationMixin<Question>;
+  declare getQuestions: HasManyGetAssociationsMixin<Question>;
+  declare getAnswers: HasManyGetAssociationsMixin<Answer>;
 }
 
-Notification.init(
+// Avoid circular import — import after class declaration
+import { Question } from './question.model';
+import { Answer } from './answer.model';
+
+User.init(
   {
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
       autoIncrement: true,
       primaryKey: true,
     },
-    user_id: {
-      type: DataTypes.INTEGER.UNSIGNED,
+    username: {
+      type: DataTypes.STRING(50),
       allowNull: false,
+      unique: true,
     },
-    question_id: {
-      type: DataTypes.INTEGER.UNSIGNED,
+    email: {
+      type: DataTypes.STRING(100),
       allowNull: false,
+      unique: true,
     },
-    message: {
+    password_hash: {
       type: DataTypes.STRING(255),
       allowNull: false,
-    },
-    is_read: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false,
     },
     created_at: {
       type: DataTypes.DATE,
@@ -65,7 +63,7 @@ Notification.init(
   },
   {
     sequelize,
-    tableName: 'notifications',
+    tableName: 'users',
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at',

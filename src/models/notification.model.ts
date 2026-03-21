@@ -8,43 +8,49 @@ import {
   BelongsToGetAssociationMixin,
 } from 'sequelize';
 import sequelize from '../config/db';
-import { User } from './User';
-import { Question } from './Question';
+import { User } from './user.model';
+import { Question } from './question.model';
 
-export class Answer extends Model<
-  InferAttributes<Answer>,
-  InferCreationAttributes<Answer>
+export class Notification extends Model<
+  InferAttributes<Notification>,
+  InferCreationAttributes<Notification>
 > {
   declare id: CreationOptional<number>;
-  declare question_id: ForeignKey<Question['id']>;
   declare user_id: ForeignKey<User['id']>;
-  declare body: string;
+  declare question_id: ForeignKey<Question['id']>;
+  declare message: string;
+  declare is_read: CreationOptional<boolean>;
   declare created_at: CreationOptional<Date>;
   declare updated_at: CreationOptional<Date>;
 
   // Association mixins
-  declare getAuthor: BelongsToGetAssociationMixin<User>;
+  declare getUser: BelongsToGetAssociationMixin<User>;
   declare getQuestion: BelongsToGetAssociationMixin<Question>;
 }
 
-Answer.init(
+Notification.init(
   {
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
       autoIncrement: true,
       primaryKey: true,
     },
-    question_id: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false,
-    },
     user_id: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
     },
-    body: {
-      type: DataTypes.TEXT,
+    question_id: {
+      type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
+    },
+    message: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
+    is_read: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
     },
     created_at: {
       type: DataTypes.DATE,
@@ -59,7 +65,7 @@ Answer.init(
   },
   {
     sequelize,
-    tableName: 'answers',
+    tableName: 'notifications',
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at',

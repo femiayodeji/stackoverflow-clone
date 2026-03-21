@@ -4,50 +4,41 @@ import {
   InferAttributes,
   InferCreationAttributes,
   CreationOptional,
-  HasManyGetAssociationsMixin,
-  HasManyCreateAssociationMixin,
+  ForeignKey,
+  BelongsToGetAssociationMixin,
 } from 'sequelize';
 import sequelize from '../config/db';
+import { User } from './user.model';
+import { Question } from './question.model';
 
-export class User extends Model<
-  InferAttributes<User>,
-  InferCreationAttributes<User>
+export class Subscription extends Model<
+  InferAttributes<Subscription>,
+  InferCreationAttributes<Subscription>
 > {
   declare id: CreationOptional<number>;
-  declare username: string;
-  declare email: string;
-  declare password_hash: string;
+  declare user_id: ForeignKey<User['id']>;
+  declare question_id: ForeignKey<Question['id']>;
   declare created_at: CreationOptional<Date>;
   declare updated_at: CreationOptional<Date>;
 
   // Association mixins
-  declare getQuestions: HasManyGetAssociationsMixin<Question>;
-  declare getAnswers: HasManyGetAssociationsMixin<Answer>;
+  declare getUser: BelongsToGetAssociationMixin<User>;
+  declare getQuestion: BelongsToGetAssociationMixin<Question>;
 }
 
-// Avoid circular import — import after class declaration
-import { Question } from './Question';
-import { Answer } from './Answer';
-
-User.init(
+Subscription.init(
   {
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
       autoIncrement: true,
       primaryKey: true,
     },
-    username: {
-      type: DataTypes.STRING(50),
+    user_id: {
+      type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
-      unique: true,
     },
-    email: {
-      type: DataTypes.STRING(100),
-      allowNull: false,
-      unique: true,
-    },
-    password_hash: {
-      type: DataTypes.STRING(255),
+    question_id: {
+      type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
     },
     created_at: {
@@ -63,9 +54,16 @@ User.init(
   },
   {
     sequelize,
-    tableName: 'users',
+    tableName: 'subscriptions',
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at',
+    indexes: [
+      {
+        unique: true,
+        fields: ['user_id', 'question_id'],
+        name: 'unique_user_question_subscription',
+      },
+    ],
   }
 );

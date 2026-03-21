@@ -1,8 +1,8 @@
 import { questionsRepository } from './questions.repository';
 import { CreateQuestionDto, CreateAnswerDto } from './questions.schema';
 import { NotFoundError, ForbiddenError } from '../../shared/errors';
-import { Question } from '../../models/Question';
-import { Answer } from '../../models/Answer';
+import { Question } from '../../models/question.model';
+import { Answer } from '../../models/answer.model';
 import logger from '../../shared/logger';
 
 export class QuestionsService {

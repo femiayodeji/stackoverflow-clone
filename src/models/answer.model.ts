@@ -5,48 +5,46 @@ import {
   InferCreationAttributes,
   CreationOptional,
   ForeignKey,
+  BelongsToGetAssociationMixin,
 } from 'sequelize';
 import sequelize from '../config/db';
-import { User } from './User';
+import { User } from './user.model';
+import { Question } from './question.model';
 
-export type VoteTargetType = 'question' | 'answer';
-
-export class Vote extends Model<
-  InferAttributes<Vote>,
-  InferCreationAttributes<Vote>
+export class Answer extends Model<
+  InferAttributes<Answer>,
+  InferCreationAttributes<Answer>
 > {
   declare id: CreationOptional<number>;
+  declare question_id: ForeignKey<Question['id']>;
   declare user_id: ForeignKey<User['id']>;
-  declare target_id: number;
-  declare target_type: VoteTargetType;
-  declare value: 1 | -1;
+  declare body: string;
   declare created_at: CreationOptional<Date>;
   declare updated_at: CreationOptional<Date>;
+
+  // Association mixins
+  declare getAuthor: BelongsToGetAssociationMixin<User>;
+  declare getQuestion: BelongsToGetAssociationMixin<Question>;
 }
 
-Vote.init(
+Answer.init(
   {
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
       autoIncrement: true,
       primaryKey: true,
     },
+    question_id: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
+    },
     user_id: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
     },
-    target_id: {
-      type: DataTypes.INTEGER.UNSIGNED,
+    body: {
+      type: DataTypes.TEXT,
       allowNull: false,
-    },
-    target_type: {
-      type: DataTypes.ENUM('question', 'answer'),
-      allowNull: false,
-    },
-    value: {
-      type: DataTypes.TINYINT,
-      allowNull: false,
-      comment: '1 for upvote, -1 for downvote',
     },
     created_at: {
       type: DataTypes.DATE,
@@ -61,16 +59,9 @@ Vote.init(
   },
   {
     sequelize,
-    tableName: 'votes',
+    tableName: 'answers',
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at',
-    indexes: [
-      {
-        unique: true,
-        fields: ['user_id', 'target_id', 'target_type'],
-        name: 'unique_user_vote_per_target',
-      },
-    ],
   }
 );
