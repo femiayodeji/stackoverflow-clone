@@ -38,7 +38,7 @@ const sendDevError = (err: AppError, res: Response): void => {
     status: err.statusCode >= 500 ? 'error' : 'fail',
     statusCode: err.statusCode,
     message: err.message,
-    stack: err.stack,
+    ...(process.env.NODE_ENV !== 'production' && { stack: err.stack }),
   });
 };
 
