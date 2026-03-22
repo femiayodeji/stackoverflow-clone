@@ -4,6 +4,7 @@ export default {
   rootDir: 'src',
   testMatch: ['**/tests/**/*.test.ts'],  // matches any tests/ folder
   setupFiles: ['<rootDir>/tests/setup.ts'],
+  globalTeardown: '<rootDir>/tests/globalTeardown.ts',
   coverageDirectory: '../coverage',
   collectCoverageFrom: [
     '**/*.ts',

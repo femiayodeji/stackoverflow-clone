@@ -25,4 +25,8 @@ export const connectDB = async (): Promise<void> => {
   logger.info('Database connection established successfully');
 };
 
+export const closeDB = async (): Promise<void> => {
+  await sequelize.close();
+};
+
 export default sequelize;
