@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { questionsService } from './questions.service';
 import { catchAsync } from '@shared/errors';
+import { PaginationSchema } from '@shared/pagination';
 
 export class QuestionsController {
   /**
@@ -17,11 +18,13 @@ export class QuestionsController {
 
   /**
    * GET /api/questions
-   * Returns all questions — public
+   * Returns paginated questions — public
+   * Query params: page (default 1), limit (default 10, max 100)
    */
-  getAllQuestions = catchAsync(async (_req: Request, res: Response): Promise<void> => {
-    const questions = await questionsService.getAllQuestions();
-    res.status(200).json({ status: 'success', data: questions });
+  getAllQuestions = catchAsync(async (req: Request, res: Response): Promise<void> => {
+    const { page, limit } = PaginationSchema.parse(req.query);
+    const result = await questionsService.getAllQuestions({ page, limit });
+    res.status(200).json({ status: 'success', ...result });
   });
 
   /**

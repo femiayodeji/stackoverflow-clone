@@ -111,15 +111,31 @@ describe('SubscriptionsService', () => {
 
   
   describe('getNotifications', () => {
-    it('should return all notifications for a user', async () => {
-      (subscriptionsRepository.findNotifications as jest.Mock).mockResolvedValue([
-        mockNotification,
-      ]);
+    it('should return paginated notifications for a user', async () => {
+      (subscriptionsRepository.findNotifications as jest.Mock).mockResolvedValue({
+        rows: [mockNotification],
+        count: 1,
+      });
+
+      const result = await subscriptionsService.getNotifications(1, { page: 1, limit: 10 });
+
+      expect(result.data).toHaveLength(1);
+      expect(result.pagination.total).toBe(1);
+      expect(result.pagination.page).toBe(1);
+      expect(subscriptionsRepository.findNotifications).toHaveBeenCalledWith(1, { page: 1, limit: 10 });
+    });
+
+    it('should use default pagination when no options provided', async () => {
+      (subscriptionsRepository.findNotifications as jest.Mock).mockResolvedValue({
+        rows: [mockNotification],
+        count: 1,
+      });
 
       const result = await subscriptionsService.getNotifications(1);
 
-      expect(result).toHaveLength(1);
-      expect(subscriptionsRepository.findNotifications).toHaveBeenCalledWith(1);
+      expect(result.data).toHaveLength(1);
+      expect(result.pagination.page).toBe(1);
+      expect(result.pagination.limit).toBe(10);
     });
   });
 

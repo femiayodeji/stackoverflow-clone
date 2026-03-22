@@ -136,10 +136,19 @@ describe('Subscriptions Routes', () => {
 
   
   describe('GET /api/notifications', () => {
-    it('should return 200 with all notifications', async () => {
-      (subscriptionsService.getNotifications as jest.Mock).mockResolvedValue([
-        mockNotification,
-      ]);
+    it('should return 200 with paginated notifications', async () => {
+      const paginatedResult = {
+        data: [mockNotification],
+        pagination: {
+          total: 1,
+          page: 1,
+          limit: 10,
+          totalPages: 1,
+          hasNextPage: false,
+          hasPrevPage: false,
+        },
+      };
+      (subscriptionsService.getNotifications as jest.Mock).mockResolvedValue(paginatedResult);
 
       const res = await request(app)
         .get('/api/notifications')
@@ -147,6 +156,30 @@ describe('Subscriptions Routes', () => {
 
       expect(res.status).toBe(200);
       expect(res.body.data).toHaveLength(1);
+      expect(res.body.pagination).toBeDefined();
+      expect(res.body.pagination.total).toBe(1);
+    });
+
+    it('should accept page and limit query params', async () => {
+      const paginatedResult = {
+        data: [mockNotification],
+        pagination: {
+          total: 15,
+          page: 2,
+          limit: 5,
+          totalPages: 3,
+          hasNextPage: true,
+          hasPrevPage: true,
+        },
+      };
+      (subscriptionsService.getNotifications as jest.Mock).mockResolvedValue(paginatedResult);
+
+      const res = await request(app)
+        .get('/api/notifications?page=2&limit=5')
+        .set('Authorization', `Bearer ${mockToken}`);
+
+      expect(res.status).toBe(200);
+      expect(subscriptionsService.getNotifications).toHaveBeenCalledWith(1, { page: 2, limit: 5 });
     });
 
     it('should return 401 without a token', async () => {

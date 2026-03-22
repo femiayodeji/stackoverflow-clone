@@ -9,6 +9,11 @@ import { Subscription } from '@models/subscription.model';
 import { Notification } from '@models/notification.model';
 import { Question } from '@models/question.model';
 import logger from '@shared/logger';
+import {
+  PaginationOptions,
+  PaginatedResult,
+  calculatePaginationMeta,
+} from '@shared/pagination';
 
 export class SubscriptionsService {
   async subscribe(userId: number, dto: SubscribeDto): Promise<Subscription> {
@@ -56,8 +61,19 @@ export class SubscriptionsService {
     logger.info('User unsubscribed from question', { userId, questionId });
   }
 
-  async getNotifications(userId: number): Promise<Notification[]> {
-    return subscriptionsRepository.findNotifications(userId);
+  async getNotifications(
+    userId: number,
+    options?: PaginationOptions
+  ): Promise<PaginatedResult<Notification>> {
+    const { page = 1, limit = 10 } = options || {};
+    const { rows, count } = await subscriptionsRepository.findNotifications(
+      userId,
+      { page, limit }
+    );
+    return {
+      data: rows,
+      pagination: calculatePaginationMeta(count, page, limit),
+    };
   }
 
   async markNotificationAsRead(

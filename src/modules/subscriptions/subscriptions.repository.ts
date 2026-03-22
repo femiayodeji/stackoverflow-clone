@@ -1,6 +1,7 @@
 import { Subscription } from '@models/subscription.model';
 import { Notification } from '@models/notification.model';
 import { Question } from '@models/question.model';
+import { PaginationOptions, calculateOffset } from '@shared/pagination';
 
 export class SubscriptionsRepository {
   async findSubscription(
@@ -23,8 +24,14 @@ export class SubscriptionsRepository {
     await subscription.destroy();
   }
 
-  async findNotifications(userId: number): Promise<Notification[]> {
-    return Notification.findAll({
+  async findNotifications(
+    userId: number,
+    options?: PaginationOptions
+  ): Promise<{ rows: Notification[]; count: number }> {
+    const { page = 1, limit = 10 } = options || {};
+    const offset = calculateOffset(page, limit);
+
+    return Notification.findAndCountAll({
       where: { user_id: userId },
       include: [
         {
@@ -34,6 +41,9 @@ export class SubscriptionsRepository {
         },
       ],
       order: [['created_at', 'DESC']],
+      limit,
+      offset,
+      distinct: true,
     });
   }
 

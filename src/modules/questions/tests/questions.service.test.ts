@@ -48,13 +48,32 @@ describe('QuestionsService', () => {
 
   
   describe('getAllQuestions', () => {
-    it('should return all questions', async () => {
-      (questionsRepository.findAll as jest.Mock).mockResolvedValue([mockQuestion]);
+    it('should return paginated questions', async () => {
+      (questionsRepository.findAll as jest.Mock).mockResolvedValue({
+        rows: [mockQuestion],
+        count: 1,
+      });
+
+      const result = await questionsService.getAllQuestions({ page: 1, limit: 10 });
+
+      expect(result.data).toHaveLength(1);
+      expect(result.pagination.total).toBe(1);
+      expect(result.pagination.page).toBe(1);
+      expect(result.pagination.limit).toBe(10);
+      expect(questionsRepository.findAll).toHaveBeenCalledWith({ page: 1, limit: 10 });
+    });
+
+    it('should use default pagination when no options provided', async () => {
+      (questionsRepository.findAll as jest.Mock).mockResolvedValue({
+        rows: [mockQuestion],
+        count: 1,
+      });
 
       const result = await questionsService.getAllQuestions();
 
-      expect(result).toHaveLength(1);
-      expect(questionsRepository.findAll).toHaveBeenCalled();
+      expect(result.data).toHaveLength(1);
+      expect(result.pagination.page).toBe(1);
+      expect(result.pagination.limit).toBe(10);
     });
   });
 

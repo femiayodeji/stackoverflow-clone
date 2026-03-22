@@ -2,6 +2,7 @@ import { Answer } from '@models/answer.model';
 import { Question } from '@models/question.model';
 import { User } from '@models/user.model';
 import { CreateQuestionDto, CreateAnswerDto } from './questions.schema';
+import { PaginationOptions, calculateOffset } from '@shared/pagination';
 
 export class QuestionsRepository {
 
@@ -12,8 +13,13 @@ export class QuestionsRepository {
     return Question.create({ user_id: userId, ...dto });
   }
 
-  async findAll(): Promise<Question[]> {
-    return Question.findAll({
+  async findAll(
+    options?: PaginationOptions
+  ): Promise<{ rows: Question[]; count: number }> {
+    const { page = 1, limit = 10 } = options || {};
+    const offset = calculateOffset(page, limit);
+
+    return Question.findAndCountAll({
       include: [
         {
           model: User,
@@ -22,6 +28,9 @@ export class QuestionsRepository {
         },
       ],
       order: [['created_at', 'DESC']],
+      limit,
+      offset,
+      distinct: true,
     });
   }
 

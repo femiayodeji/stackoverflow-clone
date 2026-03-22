@@ -31,13 +31,46 @@ describe('Questions Routes', () => {
 
   
   describe('GET /api/questions', () => {
-    it('should return 200 with all questions', async () => {
-      (questionsService.getAllQuestions as jest.Mock).mockResolvedValue([mockQuestion]);
+    it('should return 200 with paginated questions', async () => {
+      const paginatedResult = {
+        data: [mockQuestion],
+        pagination: {
+          total: 1,
+          page: 1,
+          limit: 10,
+          totalPages: 1,
+          hasNextPage: false,
+          hasPrevPage: false,
+        },
+      };
+      (questionsService.getAllQuestions as jest.Mock).mockResolvedValue(paginatedResult);
 
       const res = await request(app).get('/api/questions');
 
       expect(res.status).toBe(200);
       expect(res.body.data).toHaveLength(1);
+      expect(res.body.pagination).toBeDefined();
+      expect(res.body.pagination.total).toBe(1);
+    });
+
+    it('should accept page and limit query params', async () => {
+      const paginatedResult = {
+        data: [mockQuestion],
+        pagination: {
+          total: 15,
+          page: 2,
+          limit: 5,
+          totalPages: 3,
+          hasNextPage: true,
+          hasPrevPage: true,
+        },
+      };
+      (questionsService.getAllQuestions as jest.Mock).mockResolvedValue(paginatedResult);
+
+      const res = await request(app).get('/api/questions?page=2&limit=5');
+
+      expect(res.status).toBe(200);
+      expect(questionsService.getAllQuestions).toHaveBeenCalledWith({ page: 2, limit: 5 });
     });
   });
 

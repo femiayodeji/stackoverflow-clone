@@ -6,6 +6,11 @@ import { Answer } from '@models/answer.model';
 import { Question } from '@models/question.model';
 import { User } from '@models/user.model';
 import { questionEmitter } from '@shared/events/questionEmitter';
+import {
+  PaginationOptions,
+  PaginatedResult,
+  calculatePaginationMeta,
+} from '@shared/pagination';
 
 export class QuestionsService {
 
@@ -18,8 +23,15 @@ export class QuestionsService {
     return question;
   }
 
-  async getAllQuestions(): Promise<Question[]> {
-    return questionsRepository.findAll();
+  async getAllQuestions(
+    options?: PaginationOptions
+  ): Promise<PaginatedResult<Question>> {
+    const { page = 1, limit = 10 } = options || {};
+    const { rows, count } = await questionsRepository.findAll({ page, limit });
+    return {
+      data: rows,
+      pagination: calculatePaginationMeta(count, page, limit),
+    };
   }
 
   async getQuestionById(id: number): Promise<Question> {

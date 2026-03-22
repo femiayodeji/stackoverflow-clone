@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { subscriptionsService } from './subscriptions.service';
 import { catchAsync } from '@shared/errors';
+import { PaginationSchema } from '@shared/pagination';
 
 export class SubscriptionsController {
   /**
@@ -29,13 +30,16 @@ export class SubscriptionsController {
 
   /**
    * GET /api/notifications
-   * Get all notifications for authenticated user — protected
+   * Get paginated notifications for authenticated user — protected
+   * Query params: page (default 1), limit (default 10, max 100)
    */
   getNotifications = catchAsync(async (req: Request, res: Response): Promise<void> => {
-    const notifications = await subscriptionsService.getNotifications(
-      req.user!.userId
+    const { page, limit } = PaginationSchema.parse(req.query);
+    const result = await subscriptionsService.getNotifications(
+      req.user!.userId,
+      { page, limit }
     );
-    res.status(200).json({ status: 'success', data: notifications });
+    res.status(200).json({ status: 'success', ...result });
   });
 
   /**
