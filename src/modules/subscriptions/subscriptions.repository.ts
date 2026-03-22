@@ -1,6 +1,6 @@
-import { Subscription } from '../../models/subscription.model';
-import { Notification } from '../../models/notification.model';
-import { Question } from '../../models/question.model';
+import { Subscription } from '@models/subscription.model';
+import { Notification } from '@models/notification.model';
+import { Question } from '@models/question.model';
 
 export class SubscriptionsRepository {
   async findSubscription(

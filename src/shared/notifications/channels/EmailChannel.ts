@@ -1,6 +1,6 @@
 import { INotificationChannel, NotificationPayload } from '../types';
 import { transporter } from '../../../config/mailer';
-import logger from '../../logger';
+import logger from '@shared/logger';
 
 export class EmailChannel implements INotificationChannel {
   async send(payload: NotificationPayload): Promise<void> {

@@ -16,9 +16,5 @@ export const CreateAnswerSchema = z.object({
     .min(10, 'Answer must be at least 10 characters'),
 });
 
-export const QuestionParamsSchema = z.object({
-  id: z.string().regex(/^\d+$/, 'Invalid question ID'),
-});
-
 export type CreateQuestionDto = z.infer<typeof CreateQuestionSchema>;
 export type CreateAnswerDto = z.infer<typeof CreateAnswerSchema>;

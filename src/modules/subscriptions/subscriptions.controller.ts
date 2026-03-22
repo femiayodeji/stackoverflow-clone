@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { subscriptionsService } from './subscriptions.service';
-import { catchAsync } from '../../shared/errors';
+import { catchAsync } from '@shared/errors';
 
 export class SubscriptionsController {
   /**

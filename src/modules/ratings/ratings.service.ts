@@ -4,11 +4,11 @@ import {
   NotFoundError,
   ForbiddenError,
   BadRequestError,
-} from '../../shared/errors';
-import { Vote, VoteTargetType } from '../../models/vote.model';
-import { Question } from '../../models/question.model';
-import { Answer } from '../../models/answer.model';
-import logger from '../../shared/logger';
+} from '@shared/errors';
+import { Vote } from '@models/vote.model';
+import { Question } from '@models/question.model';
+import { Answer } from '@models/answer.model';
+import logger from '@shared/logger';
 
 export interface VoteResult {
   vote: Vote;
@@ -20,12 +20,12 @@ export class RatingsService {
     const { target_id, target_type, value } = dto;
 
     // Verify target exists and user does not own it
-    await this.validateTarget(userId, target_id, target_type as VoteTargetType);
+    await this.validateTarget(userId, target_id, target_type);
 
     const existingVote = await ratingsRepository.findVote(
       userId,
       target_id,
-      target_type as VoteTargetType
+      target_type
     );
 
     let vote: Vote;
@@ -43,7 +43,7 @@ export class RatingsService {
       vote = await ratingsRepository.createVote(
         userId,
         target_id,
-        target_type as VoteTargetType,
+        target_type,
         value
       );
       logger.info('Vote cast', { userId, target_id, target_type, value });
@@ -51,7 +51,7 @@ export class RatingsService {
 
     const score = await ratingsRepository.getScore(
       target_id,
-      target_type as VoteTargetType
+      target_type
     );
 
     return { vote, score };
@@ -63,7 +63,7 @@ export class RatingsService {
     const existingVote = await ratingsRepository.findVote(
       userId,
       target_id,
-      target_type as VoteTargetType
+      target_type
     );
 
     if (!existingVote) {
@@ -76,7 +76,7 @@ export class RatingsService {
 
     const score = await ratingsRepository.getScore(
       target_id,
-      target_type as VoteTargetType
+      target_type
     );
 
     return { score };
@@ -85,7 +85,7 @@ export class RatingsService {
   private async validateTarget(
     userId: number,
     targetId: number,
-    targetType: VoteTargetType
+    targetType: 'question' | 'answer'
   ): Promise<void> {
     if (targetType === 'question') {
       const question = await Question.findByPk(targetId);

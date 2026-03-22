@@ -2,8 +2,8 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { authRepository } from './auth.repository';
 import { RegisterDto, LoginDto } from './auth.schema';
-import { ConflictError, UnauthorizedError } from '../../shared/errors';
-import logger from '../../shared/logger';
+import { ConflictError, UnauthorizedError } from '@shared/errors';
+import logger from '@shared/logger';
 
 const SALT_ROUNDS = 10;
 

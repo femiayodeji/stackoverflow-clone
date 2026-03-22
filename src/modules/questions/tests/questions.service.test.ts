@@ -1,6 +1,6 @@
 import { QuestionsService } from '../questions.service';
 import { questionsRepository } from '../questions.repository';
-import { NotFoundError, ForbiddenError } from '../../../shared/errors';
+import { NotFoundError, ForbiddenError } from '@shared/errors';
 
 jest.mock('../questions.repository');
 

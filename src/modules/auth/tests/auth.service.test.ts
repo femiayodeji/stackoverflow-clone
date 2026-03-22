@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { AuthService } from '../auth.service';
 import { authRepository } from '../auth.repository';
-import { ConflictError, UnauthorizedError } from '../../../shared/errors';
+import { ConflictError, UnauthorizedError } from '@shared/errors';
 
 jest.mock('../auth.repository');
 jest.mock('bcrypt');

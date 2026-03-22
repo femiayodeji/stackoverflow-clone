@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { authService } from './auth.service';
-import { catchAsync } from '../../shared/errors';
+import { catchAsync } from '@shared/errors';
 
 export class AuthController {
    /**

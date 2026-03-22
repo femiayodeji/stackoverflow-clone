@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { ratingsService } from './ratings.service';
-import { catchAsync } from '../../shared/errors';
+import { catchAsync } from '@shared/errors';
 
 export class RatingsController {
   /**

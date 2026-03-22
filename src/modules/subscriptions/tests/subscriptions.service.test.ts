@@ -1,11 +1,11 @@
 import { SubscriptionsService } from '../subscriptions.service';
 import { subscriptionsRepository } from '../subscriptions.repository';
-import { Question } from '../../../models/question.model';
+import { Question } from '@models/question.model';
 import {
   NotFoundError,
   ConflictError,
   ForbiddenError,
-} from '../../../shared/errors';
+} from '@shared/errors';
 
 jest.mock('../subscriptions.repository');
 jest.mock('../../../models/question.model');

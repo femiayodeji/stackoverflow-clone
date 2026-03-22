@@ -11,6 +11,7 @@ export default {
     '!**/*.d.ts',
   ],
   moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/$1',
     '^@modules/(.*)$': '<rootDir>/modules/$1',
     '^@shared/(.*)$': '<rootDir>/shared/$1',
     '^@models/(.*)$': '<rootDir>/models/$1',

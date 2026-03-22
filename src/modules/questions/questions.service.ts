@@ -1,7 +1,7 @@
 import { questionsRepository } from './questions.repository';
 import { CreateQuestionDto, CreateAnswerDto } from './questions.schema';
-import { NotFoundError, ForbiddenError } from '../../shared/errors';
-import logger from '../../shared/logger';
+import { NotFoundError, ForbiddenError } from '@shared/errors';
+import logger from '@shared/logger';
 import { Answer } from '@models/answer.model';
 import { Question } from '@models/question.model';
 import { User } from '@models/user.model';

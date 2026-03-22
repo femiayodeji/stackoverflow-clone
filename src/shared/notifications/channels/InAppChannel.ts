@@ -1,6 +1,6 @@
 import { INotificationChannel, NotificationPayload } from '../types';
-import { Notification } from '../../../models/notification.model';
-import logger from '../../logger';
+import { Notification } from '@models/notification.model';
+import logger from '@shared/logger';
 
 export class InAppChannel implements INotificationChannel {
   async send(payload: NotificationPayload): Promise<void> {

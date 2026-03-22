@@ -2,13 +2,6 @@ import { Request, Response, NextFunction } from 'express';
 import { AppError } from './AppError';
 import logger from '../logger';
 
-interface ErrorResponse {
-  status: 'error' | 'fail';
-  statusCode: number;
-  message: string;
-  stack?: string;
-}
-
 /**
  * Handles Sequelize validation errors and maps them to AppError shape
  */

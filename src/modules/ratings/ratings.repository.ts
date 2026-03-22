@@ -1,4 +1,4 @@
-import { Vote, VoteTargetType } from '../../models/vote.model';
+import { Vote, VoteTargetType } from '@models/vote.model';
 
 export class RatingsRepository {
   async findVote(

@@ -1,7 +1,7 @@
 import { ForbiddenError, BadRequestError, NotFoundError } from '@shared/errors';
 import request from 'supertest';
 import jwt from 'jsonwebtoken';
-import app from '../../../app';
+import app from '@/app';
 import { ratingsService } from '../ratings.service';
 
 

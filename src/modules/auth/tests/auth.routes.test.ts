@@ -1,7 +1,7 @@
 import request from 'supertest';
-import app from '../../../app';
+import app from '@/app';
 import { authService } from '../auth.service';
-import { ConflictError, UnauthorizedError } from '../../../shared/errors';
+import { ConflictError, UnauthorizedError } from '@shared/errors';
 
 jest.mock('../auth.service');
 

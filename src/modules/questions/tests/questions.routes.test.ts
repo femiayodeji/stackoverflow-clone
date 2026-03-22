@@ -1,7 +1,7 @@
 import request from 'supertest';
-import app from '../../../app';
+import app from '@/app';
 import { questionsService } from '../questions.service';
-import { NotFoundError, ForbiddenError } from '../../../shared/errors';
+import { NotFoundError, ForbiddenError } from '@shared/errors';
 import jwt from 'jsonwebtoken';
 
 jest.mock('../questions.service');

@@ -1,8 +1,8 @@
 import { questionEmitter } from '../questionEmitter';
-import { notificationService } from '../../notifications';
-import { Subscription } from '../../../models/subscription.model';
-import { User } from '../../../models/user.model';
-import logger from '../../logger';
+import { notificationService } from '@shared/notifications';
+import { Subscription } from '@models/subscription.model';
+import { User } from '@models/user.model';
+import logger from '@shared/logger';
 
 questionEmitter.on('answer.posted', async ({ questionId, answererName }) => {
   try {

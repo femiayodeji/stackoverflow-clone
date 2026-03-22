@@ -4,11 +4,11 @@ import {
   NotFoundError,
   ConflictError,
   ForbiddenError,
-} from '../../shared/errors';
-import { Subscription } from '../../models/subscription.model';
-import { Notification } from '../../models/notification.model';
-import { Question } from '../../models/question.model';
-import logger from '../../shared/logger';
+} from '@shared/errors';
+import { Subscription } from '@models/subscription.model';
+import { Notification } from '@models/notification.model';
+import { Question } from '@models/question.model';
+import logger from '@shared/logger';
 
 export class SubscriptionsService {
   async subscribe(userId: number, dto: SubscribeDto): Promise<Subscription> {

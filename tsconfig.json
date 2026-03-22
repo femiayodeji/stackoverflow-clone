@@ -11,6 +11,7 @@
     "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
+      "@/*": ["src/*"],
       "@modules/*": ["src/modules/*"],
       "@shared/*": ["src/shared/*"],
       "@models/*": ["src/models/*"],

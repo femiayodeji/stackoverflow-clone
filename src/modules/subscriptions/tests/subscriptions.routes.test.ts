@@ -1,11 +1,11 @@
 import request from 'supertest';
-import app from '../../../app';
+import app from '@/app';
 import { subscriptionsService } from '../subscriptions.service';
 import {
   NotFoundError,
   ConflictError,
   ForbiddenError,
-} from '../../../shared/errors';
+} from '@shared/errors';
 import jwt from 'jsonwebtoken';
 
 jest.mock('../subscriptions.service');

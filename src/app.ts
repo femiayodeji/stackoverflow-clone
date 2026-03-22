@@ -1,5 +1,8 @@
-import express, { Application, Request, Response } from 'express';
+import express, { Application, Request } from 'express';
 import dotenv from 'dotenv';
+
+dotenv.config();
+
 import { globalErrorHandler } from './shared/errors';
 import { NotFoundError } from './shared/errors';
 import { connectDB } from './config/db';
@@ -11,8 +14,6 @@ import './shared/events';
 import ratingsRoutes from '@modules/ratings/ratings.routes';
 import subscriptionsRoutes from '@modules/subscriptions/subscriptions.routes';
 import notificationsRoutes from '@modules/subscriptions/subscriptions.notification.routes';
-
-dotenv.config();
 
 // Setup model associations
 setupAssociations();
@@ -43,7 +44,6 @@ const startServer = async (): Promise<void> => {
   await connectDB();
   app.listen(PORT, () => {
     logger.info(`Server running on port ${PORT}`);
-    logger.info(`API docs available at http://localhost:${PORT}/api/docs`);
   });
 };
 

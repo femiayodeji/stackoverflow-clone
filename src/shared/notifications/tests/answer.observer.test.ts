@@ -9,7 +9,7 @@ jest.mock('../../notifications', () => ({
 jest.mock('@models/subscription.model');
 
 // Register observer
-import '../observers/answer.observer';
+import '../../events/observers/answer.observer';
 
 describe('answer.observer', () => {
   beforeEach(() => jest.clearAllMocks());
