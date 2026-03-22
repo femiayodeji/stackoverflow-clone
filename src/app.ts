@@ -8,6 +8,9 @@ import logger from './shared/logger';
 import questionsRoutes from '@modules/questions/questions.routes';
 import authRoutes from '@modules/auth/auth.routes';
 import './shared/events';
+import ratingsRoutes from '@modules/ratings/ratings.routes';
+import subscriptionsRoutes from '@modules/subscriptions/subscriptions.routes';
+import notificationsRoutes from '@modules/subscriptions/subscriptions.notification.routes';
 
 dotenv.config();
 
@@ -22,6 +25,9 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/questions', questionsRoutes);
+app.use('/api/votes', ratingsRoutes);
+app.use('/api/subscriptions', subscriptionsRoutes);
+app.use('/api/notifications', notificationsRoutes);
 
 // Handle unmatched routes
 app.all('/{*path}', (req: Request, _res, next) => {
