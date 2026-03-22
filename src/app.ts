@@ -7,6 +7,7 @@ import { setupAssociations } from './models/associations';
 import logger from './shared/logger';
 import questionsRoutes from '@modules/questions/questions.routes';
 import authRoutes from '@modules/auth/auth.routes';
+import './shared/events';
 
 dotenv.config();
 

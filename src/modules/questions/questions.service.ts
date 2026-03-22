@@ -1,9 +1,11 @@
 import { questionsRepository } from './questions.repository';
 import { CreateQuestionDto, CreateAnswerDto } from './questions.schema';
 import { NotFoundError, ForbiddenError } from '../../shared/errors';
-import { Question } from '../../models/question.model';
-import { Answer } from '../../models/answer.model';
 import logger from '../../shared/logger';
+import { Answer } from '@models/answer.model';
+import { Question } from '@models/question.model';
+import { User } from '@models/user.model';
+import { questionEmitter } from '@shared/events/questionEmitter';
 
 export class QuestionsService {
 
@@ -48,6 +50,17 @@ export class QuestionsService {
       dto
     );
 
+    const answerer = await User.findByPk(userId, {
+      attributes: ['username'],
+    });
+
+    // Emit event — observers handle notification delivery asynchronously
+    questionEmitter.emit('answer.posted', {
+      answerId: answer.id,
+      questionId,
+      answererName: answerer?.username ?? 'Someone',
+    });
+
     logger.info('Answer posted', {
       answerId: answer.id,
       questionId,
@@ -56,6 +69,7 @@ export class QuestionsService {
 
     return answer;
   }
+
 }
 
 export const questionsService = new QuestionsService();
