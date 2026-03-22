@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { UnauthorizedError } from '../shared/errors';
-import { JwtPayload } from '../modules/auth/auth.service';
+import { UnauthorizedError } from '@/shared/errors';
+import { JwtPayload } from '@/modules/auth/auth.service';
 
 /**
  * Extends Express Request to include the authenticated user payload.

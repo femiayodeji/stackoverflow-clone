@@ -8,7 +8,7 @@ import {
 } from '@shared/errors';
 
 jest.mock('../subscriptions.repository');
-jest.mock('../../../models/question.model');
+jest.mock('@/models/question.model');
 
 const mockQuestion = { id: 1, user_id: 2 };
 

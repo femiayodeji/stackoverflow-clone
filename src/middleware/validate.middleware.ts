@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { ZodSchema, ZodError, ZodIssue } from 'zod';
-import { BadRequestError } from '../shared/errors';
+import { BadRequestError } from '@/shared/errors';
 
 /**
  * Generic Zod validation middleware.
