@@ -122,7 +122,7 @@ src/
 
 ## Prerequisites
 
-- [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/) : recommended
+- [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/) - recommended
 - Or locally: Node.js 20+, MySQL 8.0
 
 ---
@@ -180,7 +180,7 @@ docker compose up --build
 # Stop
 docker compose down
 
-# Full reset : wipes DB and starts fresh
+# Full reset - wipes DB and starts fresh
 docker compose down -v && docker compose up --build
 
 # View app logs
@@ -369,8 +369,8 @@ source.addEventListener('notification', (e) => {
 
 ### Behaviour
 
-- If the user is **connected** via SSE when an answer is posted : they receive an instant push notification
-- If the user is **not connected** : the notification is persisted to the DB and available via `GET /api/notifications` on their next visit
+- If the user is **connected** via SSE when an answer is posted, they receive an instant push notification
+- If the user is **not connected**, the notification is persisted to the DB and available via `GET /api/notifications` on their next visit
 - A **heartbeat** is sent every 30 seconds to keep the connection alive
 
 ---
@@ -383,7 +383,7 @@ source.addEventListener('notification', (e) => {
 
 3. **Answer ownership** : Users cannot answer their own questions.
 
-4. **Integer primary keys** : Chosen over UUIDs for MySQL performance reasons. MySQL stores UUIDs as `CHAR(36)` causing B-tree fragmentation on inserts. In a production environment with distributed writes or public-facing IDs, a hybrid approach : integer PK internally, UUID as a public identifier : would be preferable.
+4. **Integer primary keys** : Chosen over UUIDs for MySQL performance reasons. MySQL stores UUIDs as `CHAR(36)` causing B-tree fragmentation on inserts. In a production environment with distributed writes or public-facing IDs, a hybrid approach - integer PK internally, UUID as a public identifier : would be preferable.
 
 5. **Notification delivery** : `Promise.allSettled` ensures a failure in one channel (e.g. SMTP down) never prevents other channels from delivering. Notifications are not retried on failure.
 
