@@ -84,24 +84,29 @@ questions.service.createAnswer()
 ## Project Structure
 ```
 src/
+├── app.ts                         # Express app entry point
 ├── config/                        # DB, mailer config
 ├── database/
 │   ├── config/                    # Sequelize CLI config
 │   ├── migrations/                # Table creation migrations
 │   └── seeders/                   # Seed data
+├── docs/                          # API documentation
 ├── middleware/                    # auth + validate middleware
 ├── models/                        # Sequelize models + associations
 ├── modules/
 │   ├── auth/                      # Register, login
+│   ├── health/                    # Health check endpoint
 │   ├── questions/                 # Questions + answers
 │   ├── ratings/                   # Upvote/downvote
 │   └── subscriptions/             # Subscriptions + notifications + SSE
-└── shared/
-    ├── errors/                    # AppError, HttpError, catchAsync, globalErrorHandler
-    ├── events/                    # EventEmitter + observers
-    ├── logger/                    # Winston logger + transports
-    ├── notifications/             # NotificationService + channels
-    └── sse/                       # SSERegistry
+├── shared/
+│   ├── errors/                    # AppError, HttpError, catchAsync, globalErrorHandler
+│   ├── events/                    # EventEmitter + observers
+│   ├── logger/                    # Winston logger + transports
+│   ├── notifications/             # NotificationService + channels
+│   ├── pagination/                # Pagination utilities
+│   └── sse/                       # SSERegistry
+└── tests/                         # Test setup + teardown
 ```
 
 ---
@@ -387,6 +392,7 @@ The following improvements would be made before taking this to production:
 | **Refresh tokens** | Short-lived access tokens + refresh token rotation |
 | **Rate limiting** | express-rate-limit on auth and vote endpoints |
 | **Database** | PostgreSQL for better UUID support, full-text search on questions |
+| **Bulk notifications** | Use Sequelize `bulkCreate` for in-app notifications; chunk or delegate email to SendGrid for high subscriber counts |
 
 ---
 
