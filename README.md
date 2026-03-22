@@ -256,8 +256,8 @@ npm run test:coverage
 
 ### Test Types
 
-- **Unit tests**: Test individual services, utilities, and logic in isolation (e.g., `*.service.test.ts`, `AppError.test.ts`).
-- **Integration tests**: Test API endpoints and modules end-to-end, including database and middleware (e.g., `*.routes.test.ts`).
+- **Unit tests**: Test individual services and utilities in isolation with all dependencies mocked (e.g., `*.service.test.ts`, `AppError.test.ts`).
+- **Integration tests**: Test full HTTP request/response cycle including middleware, routing, validation, and error handling (e.g., `*.routes.test.ts`).
 
 ### Run tests inside Docker
 ```bash
@@ -283,7 +283,7 @@ The project targets **85% coverage** across all modules as required. Coverage re
 
 | Method | Endpoint | Auth | Description |
 |---|---|---|---|
-| GET | `/api/questions` | ❌ | List all questions |
+| GET | `/api/questions` | ❌ | List all questions (supports `?page=1&limit=10`) |
 | GET | `/api/questions/:id` | ❌ | Get question with answers |
 | POST | `/api/questions` | ✅ | Ask a new question |
 | POST | `/api/questions/:id/answers` | ✅ | Post an answer |
