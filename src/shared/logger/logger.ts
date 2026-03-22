@@ -1,11 +1,18 @@
-import { createLogger, format, Logger } from 'winston';
+import { createLogger, format, Logger, transports as winstonTransports } from 'winston';
 import { consoleTransport } from './transports/console.transport';
 import { fileTransport } from './transports/file.transport';
 import { SlackTransport } from './transports/slack.transport';
 
 const { combine, timestamp, errors, json } = format;
 
+const isTestEnv = process.env.NODE_ENV === 'test';
+
 const buildTransports = () => {
+  // Use a no-op transport in test mode to avoid open handles
+  if (isTestEnv) {
+    return [new winstonTransports.Console({ silent: true })];
+  }
+
   const activeTransports: any[] = [consoleTransport];
 
   if (process.env.LOG_TO_FILE === 'true') {

@@ -2,7 +2,7 @@ import { Sequelize } from 'sequelize';
 import logger from '../shared/logger';
 import dotenv from 'dotenv';
 
-dotenv.config();
+dotenv.config({ quiet: true });
 
 const sequelize = new Sequelize({
   dialect: 'mysql',

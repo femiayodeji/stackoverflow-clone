@@ -1,7 +1,7 @@
 import express, { Application, Request } from 'express';
 import dotenv from 'dotenv';
 
-dotenv.config();
+dotenv.config({ quiet: true });
 
 import { globalErrorHandler } from './shared/errors';
 import { NotFoundError } from './shared/errors';
@@ -14,6 +14,7 @@ import './shared/events';
 import ratingsRoutes from '@modules/ratings/ratings.routes';
 import subscriptionsRoutes from '@modules/subscriptions/subscriptions.routes';
 import notificationsRoutes from '@modules/subscriptions/subscriptions.notification.routes';
+import healthRoutes from '@modules/health/health.routes';
 
 // Setup model associations
 setupAssociations();
@@ -24,6 +25,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
+app.use('/health', healthRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/questions', questionsRoutes);
 app.use('/api/votes', ratingsRoutes);
@@ -47,6 +49,9 @@ const startServer = async (): Promise<void> => {
   });
 };
 
-startServer();
+// Only start the server when running directly, not when imported by tests
+if (require.main === module) {
+  startServer();
+}
 
 export default app;

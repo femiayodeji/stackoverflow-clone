@@ -3,6 +3,7 @@ export default {
   testEnvironment: 'node',
   rootDir: 'src',
   testMatch: ['**/tests/**/*.test.ts'],  // matches any tests/ folder
+  setupFiles: ['<rootDir>/tests/setup.ts'],
   coverageDirectory: '../coverage',
   collectCoverageFrom: [
     '**/*.ts',
@@ -17,4 +18,6 @@ export default {
     '^@models/(.*)$': '<rootDir>/models/$1',
     '^@database/(.*)$': '<rootDir>/database/$1',
   },
+  maxWorkers: 1,
+  forceExit: true,
 };
