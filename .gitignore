@@ -47,7 +47,6 @@ Thumbs.db
 .sqltools/
 
 # Misc
-todo.md
 *.pid
 *.seed
 *.pid.lock

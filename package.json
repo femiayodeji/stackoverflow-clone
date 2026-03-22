@@ -16,7 +16,11 @@
     "db:rollback": "ts-node node_modules/.bin/sequelize-cli db:migrate:undo:all",
     "db:seed": "ts-node node_modules/.bin/sequelize-cli db:seed:all",
     "db:seed:undo": "ts-node node_modules/.bin/sequelize-cli db:seed:undo:all",
-    "db:fresh": "npm run db:rollback && npm run db:migrate && npm run db:seed"
+    "db:fresh": "npm run db:rollback && npm run db:migrate && npm run db:seed",
+    "docker:up": "docker compose up --build",
+    "docker:down": "docker compose down",
+    "docker:reset": "docker compose down -v && docker compose up --build",
+    "docker:logs": "docker compose logs -f app"
   },
   "keywords": [],
   "author": "",
